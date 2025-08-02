@@ -2,159 +2,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faça um Pix para os noivos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pix para os noivos</title>
   <style>
     body {
-      background: #f0f8ff;
+      background-color: #e6f7ff;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 40px 10px;
+      color: #004080;
     }
-
     h1 {
-      font-size: 2em;
-      color: #1e88e5;
+      font-size: 2.2em;
     }
-
     .pix-key {
-      margin: 20px 0 10px 0;
       font-size: 1.2em;
+      margin: 10px 0 20px;
       word-break: break-all;
-      color: #333;
     }
-
-    .copy-button {
-      background-color: #1e88e5;
+    .btn {
+      background-color: #007BFF;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 14px 24px;
       font-size: 1em;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      margin-bottom: 30px;
     }
-
-    .copy-button:hover {
-      background-color: #1565c0;
+    .btn:hover {
+      background-color: #0056b3;
     }
-
-    .emoji {
-      font-size: 1.5em;
-      vertical-align: middle;
+    #player {
+      margin-top: 30px;
     }
-
-    .particles {
+    .heart, .star {
       position: absolute;
+      animation: float 2s ease-out forwards;
+      font-size: 24px;
       pointer-events: none;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      overflow: hidden;
     }
-
-    .particle {
-      position: absolute;
-      font-size: 1.5em;
-      animation: fall 1.5s ease-out forwards;
-    }
-
-    @keyframes fall {
+    @keyframes float {
       to {
-        transform: translateY(100vh);
+        transform: translateY(-150px);
         opacity: 0;
       }
-    }
-
-    .countdown {
-      font-size: 1.1em;
-      color: #1e88e5;
-      margin-top: 20px;
-    }
-
-    iframe {
-      margin-top: 40px;
-      border-radius: 12px;
-      max-width: 90%;
     }
   </style>
 </head>
 <body>
+  <h1>Faça um Pix para os noivos 💙</h1>
+  <div class="pix-key" id="pixKey">edubernardosv@gmail.com</div>
+  <button class="btn" onclick="copyPixKey()">Copiar chave Pix</button>
 
-  <h1>Faça um Pix para os noivos <span class="emoji">💙</span></h1>
-
-  <div class="pix-key" id="pix-key">
-    1adf0413-36d7-4ad2-ae68-a87e0c50c5b1
+  <div id="player">
+    <iframe width="360" height="215"
+      src="https://www.youtube.com/embed/9YcrMk_cZyI?start=35&autoplay=1&loop=1&playlist=9YcrMk_cZyI"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 
-  <button class="copy-button" onclick="copyPix()">Copiar chave Pix</button>
-
-  <div class="countdown" id="countdown">Carregando contagem regressiva...</div>
-
-  <div class="particles" id="particles"></div>
-
-  <!-- YouTube embed a partir de 0:35 -->
-  <iframe width="560" height="315" 
-    src="https://www.youtube.com/embed/9YcrMk_cZyI?start=35&autoplay=1&loop=1&playlist=9YcrMk_cZyI" 
-    title="Instrumental" 
-    frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
-
   <script>
-    function copyPix() {
-      const key = document.getElementById("pix-key").textContent;
+    function copyPixKey() {
+      const key = document.getElementById('pixKey').innerText.trim();
       navigator.clipboard.writeText(key).then(() => {
-        spawnParticles();
-        alert("Chave Pix copiada com sucesso!");
+        for (let i = 0; i < 20; i++) {
+          const icon = document.createElement('div');
+          icon.className = Math.random() > 0.5 ? 'heart' : 'star';
+          icon.textContent = Math.random() > 0.5 ? '💙' : '⭐';
+          icon.style.left = Math.random() * 100 + 'vw';
+          icon.style.top = Math.random() * 40 + 30 + 'vh';
+          document.body.appendChild(icon);
+          setTimeout(() => icon.remove(), 2000);
+        }
       });
     }
-
-    function spawnParticles() {
-      const container = document.getElementById("particles");
-      for (let i = 0; i < 30; i++) {
-        const el = document.createElement("div");
-        el.className = "particle";
-        el.style.left = Math.random() * 100 + "vw";
-        el.style.top = "-20px";
-        el.style.animationDuration = (Math.random() * 1.5 + 0.5) + "s";
-        el.textContent = Math.random() > 0.5 ? "💙" : "✨";
-        container.appendChild(el);
-
-        setTimeout(() => {
-          container.removeChild(el);
-        }, 2000);
-      }
-    }
-
-    // Contagem regressiva até 12 de outubro de 2025
-    const countdownEl = document.getElementById("countdown");
-    const targetDate = new Date("2025-10-12T00:00:00");
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        countdownEl.textContent = "O grande dia chegou! 💙";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      countdownEl.textContent = 
-        `Faltam ${days} dias, ${hours}h ${minutes}m ${seconds}s para o grande dia 💍`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
   </script>
-
 </body>
 </html>
