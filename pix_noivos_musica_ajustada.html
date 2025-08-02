@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Presenteie os noivos com um PIX</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #fefefe;
+      position: relative;
+      overflow: hidden;
+    }
+    .caixa {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+    h2 {
+      color: #2e7d32;
+    }
+    #chavePix {
+      font-weight: bold;
+      color: #333;
+      font-size: 18px;
+      word-break: break-all;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1b5e20;
+    }
+
+    .brilho {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: cair 2s ease-out forwards;
+    }
+
+    @keyframes cair {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(300px); }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="musica" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/03/audio_61cf8128e2.mp3?filename=inspiring-ambient-background-145038.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div class="caixa">
+    <h2>Presenteie os noivos com um PIX 💚</h2>
+    <p>Chave PIX:</p>
+    <p id="chavePix">1adf0413-36d7-4ad2-ae68-a87e0c50c5b1</p>
+    <button onclick="copiarPix()">Copiar Chave PIX</button>
+  </div>
+
+  <script>
+    // Esperar o carregamento e pular para 35 segundos
+    const audio = document.getElementById("musica");
+    audio.addEventListener("canplay", () => {
+      audio.currentTime = 35;
+      audio.play();
+    });
+
+    function copiarPix() {
+      const chave = document.getElementById("chavePix").innerText;
+      navigator.clipboard.writeText(chave).then(() => {
+        alert("Chave PIX copiada com sucesso!");
+      }).catch(() => {
+        alert("Erro ao copiar a chave. Tente manualmente.");
+      });
+
+      // Criar brilhos na tela
+      for (let i = 0; i < 30; i++) {
+        const brilho = document.createElement("div");
+        brilho.classList.add("brilho");
+        brilho.style.left = Math.random() * window.innerWidth + "px";
+        brilho.style.top = Math.random() * 100 + "px";
+        brilho.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        document.body.appendChild(brilho);
+        setTimeout(() => brilho.remove(), 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>
